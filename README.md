@@ -2,4 +2,4 @@
 
 ##How to install:
 
-Copy the Providers.php file and replace the that in 'Piwik/Core/Data'
+Copy the Providers.php file and replace that in 'Piwik/Core/DataFiles'
