@@ -1,5 +1,5 @@
 
-fname = './provider.txt';
+fname = './provider_vt_20170302.txt'
 
 # The order of the items in below list DOES affect the resulted
 # dictionary file. Please be careful. A special case which belongs
@@ -7,19 +7,18 @@ fname = './provider.txt';
 # E.g: 'viettel (cambodia' need to be above of viettel
 providerNameDictionary = {
 
-
     #include 'phnompenh' and 'viettel cambodia'
     'viettel (cambodia':'Viettel Cambodia Pte.',
 
-    'viettel':'Viettel Corporation',
-    'vietel':'Viettel Corporation',
+    'viettel':'Viettel Corp.',
+    'vietel':'Viettel Corp.',
 
     #env does not exist
     #'evn':'Viettel Corporation',
-    'electric telecommunication':'Viettel Corporation',
-    'fpt':'FPT Telecom Company',
-    'vnpt':'(VNPT) Vietnam Posts and Telecommunications',
-    'vdc':'(VNPT) Vietnam Posts and Telecommunications',
+    'electric telecommunication':'(EVN)-Viettel Corp.',
+    'fpt':'FPT Telecom',
+    'vnpt':'VNPT',
+    'vdc':'VNPT',
 
     'cmc telecom': 'CMC Telecommunications Services Company',
 
@@ -73,8 +72,8 @@ providerNameDictionary = {
     # source:       APNIC
     'cuc cntt-tong cuc thue': 'Cuc CNTT-Tong cuc Thue',
 
+    'saigon tourist cable television': 'SCTV',
     #short and long name
-    'saigon tourist cable television': 'SaiGon Tourist Cable Television',
 
     #A weird ISP in Lao
     'telecommunication service - telecommunication service': "Telecommunication Service - Isp in Lao",
@@ -109,7 +108,7 @@ excludedItems = {
 }
 
 f = open(fname, 'r')
-fwrite = open('providerDict0713.txt', 'w')
+fwrite = open('provider_dict.txt', 'w')
 #f1 = open('viettel', 'w')
 #f2 = open('fpt', 'w')
 
@@ -118,15 +117,17 @@ fwrite = open('providerDict0713.txt', 'w')
 
 
 for line in f:
-    line = line[:-1].lower()
+    #trim the EOL character (for output of docker, both CR+LF is in the line)
+    line = line[:-2].lower()
     for key in excludedItems:
         if key in line:
+            print("ignoring :" + line)
             continue
     for key in providerNameDictionary:
         if key in line:
             if line == providerNameDictionary[key].lower():
                 break
-            #print("\'{0:s}\' => \'{1:s}\',".format(line, providerNameDictionary[key]))
+            print("\'{0:s}\' => \'{1:s}\',".format(line, providerNameDictionary[key]))
             fwrite.write("\'{0:s}\' => \'{1:s}\', \n".format(line, providerNameDictionary[key]))
             break
 
